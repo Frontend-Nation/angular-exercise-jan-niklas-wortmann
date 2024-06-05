@@ -1,4 +1,11 @@
-<app-contact-search />
+<div class="flex w-full">
+  <div class="w-10/12">
+    <app-contact-search />
+  </div>
+  <div class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex justify-center items-center">
+    <a routerLink="./new" >Add Contact</a>
+  </div>
+</div>
 
 <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
   @for(contact of contactStore.entities(); track contact.id){
