@@ -1,0 +1,12 @@
+<div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+  <div class="flex justify-center p-4">
+    <div class="flex flex-col items-center px-10">
+      <img class="w-24 h-24 mb-3 rounded-full shadow-lg" [ngSrc]="contact().photo || 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=3580&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'" [alt]="contact().name + 'profile picture'" width="96" height="96"/>
+      <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ contact().name }}</h5>
+      <span class="text-sm text-gray-500 dark:text-gray-400">{{ contact().company }}</span>
+      <div class="flex mt-4 md:mt-6">
+        <a [routerLink]="'./' + contact().id" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit</a>
+      </div>
+    </div>
+  </div>
+</div>

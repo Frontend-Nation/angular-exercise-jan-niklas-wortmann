@@ -1,0 +1,7 @@
+<app-contact-search />
+
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+  @for(contact of contactStore.entities(); track contact.id){
+    <app-contact-card [contact]="contact" />
+  }
+</div>
