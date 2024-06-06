@@ -18,4 +18,7 @@ import {RouterLink} from "@angular/router";
 export class ContactsPageComponent {
   protected contactStore = inject(ContactsStore);
 
+  change(searchQuery: string) {
+    this.contactStore.search(searchQuery)
+  }
 }

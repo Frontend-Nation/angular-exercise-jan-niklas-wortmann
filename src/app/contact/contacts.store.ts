@@ -1,7 +1,7 @@
-import {patchState, signalStore, withHooks, withMethods, withState} from '@ngrx/signals';
+import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from '@ngrx/signals';
 import { Contact } from './contact.model';
 import {addEntities, addEntity, updateEntity, withEntities} from "@ngrx/signals/entities";
-import {inject, Injectable} from "@angular/core";
+import {computed, inject, Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, concatMap, exhaustMap, Observable, of, pipe, tap} from "rxjs";
 import {rxMethod} from "@ngrx/signals/rxjs-interop";
@@ -11,9 +11,23 @@ export const dummy_contact: Contact = {id: "1", company: "Some Company", email: 
 export const ContactsStore = signalStore(
   { providedIn: 'root' },
   withEntities<Contact>(),
+  withState<{search: string}>({search: ""}),
+  withComputed((store) => ({
+      searchedContactList: computed(() => {
+        const searchQuery = store.search()
+        if(searchQuery){
+          return store.entities().filter(contact => contact.name.includes(searchQuery))
+        } else {
+          return store.entities();
+        }
+      })
+    })),
   withMethods((store) => {
     const dataService = inject(ContactDataService)
     return {
+      search: (search: string) => {
+        patchState(store, {search});
+      },
       loadAllContacts: rxMethod<void>(
         pipe(
           exhaustMap(_ => dataService.getContacts()),
