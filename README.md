@@ -17,10 +17,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 npm install
 ```
 
-```shell
-npm install @ngrx/signals@18.0.0-beta.1
-```
-
 #### Step 2 - Fetch All Contacts
 
 Fetch all Contacts from the MockServer and display them in the `ContactsPage`
