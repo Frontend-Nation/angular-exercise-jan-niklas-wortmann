@@ -21,6 +21,22 @@ npm install
 npm install @ngrx/signals@18.0.0-beta.1
 ```
 
+#### Step 2 - Fetch All Contacts
+
+Fetch all Contacts from the MockServer and display them in the `ContactsPage`
+
+#### Step 3 - Update an Existing Contact
+
+In the `ContactDetailPage` implement updating an existing Contact and make sure that the `ContactsPage` shows the updated contact.
+
+#### Step 4 - Create a new Contact
+
+Use `AddContactPage` to create an entire new user and make sure that the `ContactsPage` shows the new contact. 
+
+#### Bonus - Implement Search
+
+Implement a search functionality for contacts in the `ContactsPage`
+
 ## Helpful Information
 
 ### Development server
