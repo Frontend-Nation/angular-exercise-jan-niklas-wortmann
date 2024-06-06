@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import {FormsModule} from "@angular/forms";
+import {Component, inject} from '@angular/core';
+import {FormsModule, NgForm} from "@angular/forms";
 import {Contact} from "../contact.model";
+import {ContactsStore} from "../contacts.store";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-add-contact-page',
@@ -12,5 +14,12 @@ import {Contact} from "../contact.model";
   styleUrl: './add-contact-page.component.css'
 })
 export class AddContactPageComponent {
-  protected contact: Partial<Contact> = {name: "", email: "", company: ""}
+  protected contact = {name: "", email: "", company: ""}
+  private contactStore = inject(ContactsStore);
+  private router = inject(Router)
+
+  onSubmit() {
+    this.contactStore.createContact(this.contact);
+    this.router.navigate(["/contacts"]);
+  }
 }

@@ -1,18 +1,50 @@
-import {patchState, signalStore, withHooks, withState} from '@ngrx/signals';
+import {patchState, signalStore, withHooks, withMethods, withState} from '@ngrx/signals';
 import { Contact } from './contact.model';
-import {addEntity, withEntities} from "@ngrx/signals/entities";
+import {addEntities, addEntity, updateEntity, withEntities} from "@ngrx/signals/entities";
 import {inject, Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {catchError, Observable, of} from "rxjs";
+import {catchError, concatMap, exhaustMap, Observable, of, pipe, tap} from "rxjs";
+import {rxMethod} from "@ngrx/signals/rxjs-interop";
 
 export const dummy_contact: Contact = {id: "1", company: "Some Company", email: "some@company.com", name: "Some Name", photo: "https://flowbite.com/docs/images/people/profile-picture-3.jpg"}
 
 export const ContactsStore = signalStore(
   { providedIn: 'root' },
   withEntities<Contact>(),
+  withMethods((store) => {
+    const dataService = inject(ContactDataService)
+    return {
+      loadAllContacts: rxMethod<void>(
+        pipe(
+          exhaustMap(_ => dataService.getContacts()),
+          tap(contacts => {
+            patchState(store, addEntities(contacts))
+          })
+        )
+      ),
+      updateContact: rxMethod<Contact>(
+        pipe(
+          concatMap(contact => dataService.updateContact(contact)),
+          tap(contact => {
+            patchState(store, updateEntity({id: contact.id, changes: contact}))
+          })
+        )
+      ),
+      createContact: rxMethod<Pick<Contact, "name" | "company" | "email">>(
+        pipe(
+          exhaustMap(contact => dataService.createContact(contact)),
+          tap(contact => {
+            if(contact){
+              patchState(store, addEntity(contact))
+            }
+          })
+        )
+      )
+    }
+  }),
   withHooks({
     onInit(store){
-      patchState(store,  addEntity(dummy_contact))
+      store.loadAllContacts();
     }
   })
 );
